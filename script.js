@@ -42,7 +42,6 @@ document.getElementById("connect").addEventListener("click", () => {
     const sortedMessages = fetchedMessages.sort(
       (a, b) => a.createdAt - b.createdAt
     );
-   console.log(sortedMessages)
     chatHistory.innerHTML += `<div class="bot-message">${
       sortedMessages[sortedMessages.length - 1]?.text
     }</div>`;
@@ -68,7 +67,6 @@ const sendMessage1 = async (userMessage) => {
 async function sendMessage() {
   const userMessage = userInput.value;
   userInput.value = ""; // Clear input field
-  console.log(userMessage);
   try {
     if (ifConnectClick) {
       sendMessage1(userMessage);
@@ -83,9 +81,7 @@ async function sendMessage() {
       });
 
       const data = await response.json();
-      console.log(data);
       const botMessage = data.response;
-      console.log(botMessage);
 
       // Add chat message to the chat history
       chatHistory.innerHTML += `<div class="user-message">${userMessage}</div>`;
