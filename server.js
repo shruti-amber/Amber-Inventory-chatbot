@@ -79,18 +79,18 @@ async function runChat(userInput) {
 }
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile("index.html", { root: "." });
 });
 app.get("/loader.gif", (req, res) => {
-  res.sendFile(__dirname + "/loader.gif");
+  res.sendFile("loader.gif", { root: "." });
 });
 app.get("/script.js", (req, res) => {
-  res.sendFile(__dirname + "/script.js");
+  res.sendFile("script.js", { root: "." });
 });
 app.post("/chat", async (req, res) => {
   try {
     const userInput = req.body?.userInput;
-  
+
     if (!userInput) {
       return res.status(400).json({ error: "Invalid request body" });
     }
@@ -106,4 +106,3 @@ app.post("/chat", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
