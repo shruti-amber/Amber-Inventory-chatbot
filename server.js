@@ -1,13 +1,13 @@
 // node --version # Should be >= 18
 // npm install @google/generative-ai express
 
-const express = require("express");
-const {
+import express from "express";
+import {
   GoogleGenerativeAI,
   HarmCategory,
   HarmBlockThreshold,
-} = require("@google/generative-ai");
-const dotenv = require("dotenv").config();
+} from "@google/generative-ai";
+const __dirname = import.meta.dirname;
 
 const app = express();
 const port = process.env.PORT || 3005;
@@ -107,57 +107,3 @@ app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
-const {
-  query,
-  collection,
-  orderBy,
-  onSnapshot,
-  limit,
-} = require("firebase/firestore");
-const { getFirestore } = require("firebase/firestore");
-const {initializeApp} = require('firebase/app')
-const { addDoc, serverTimestamp } =  require("firebase/firestore");
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDDIex0SQlWiotiL4MkZ0QhmUiChYqcPAA",
-  authDomain: "chatbot-81ed5.firebaseapp.com",
-  projectId: "chatbot-81ed5",
-  storageBucket: "chatbot-81ed5.appspot.com",
-  messagingSenderId: "483371209947",
-  appId: "1:483371209947:web:72a4c8410a81737b4428fe",
-  measurementId: "G-FKS3T32Y6Y",
-};
-
-// Initialize Firebase
-const app2 = initializeApp(firebaseConfig);
-const db = getFirestore(app2);
-const q = query(
-  collection(db, "messages"),
-  orderBy("createdAt", "desc"),
-  limit(50)
-);
-
-const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
-  const fetchedMessages = [];
-  QuerySnapshot.forEach((doc) => {
-    fetchedMessages.push({ ...doc.data(), id: doc.id });
-  });
-  const sortedMessages = fetchedMessages.sort(
-    (a, b) => a.createdAt - b.createdAt
-  );
-  console.log(sortedMessages)
-  //setMessages(sortedMessages);
-});
-
-const sendMessage = async () => {
-  await addDoc(collection(db, "messages"), {
-    text: 'bjbkb',
-    name: 'shruti',
-    avatar: '',
-    createdAt: serverTimestamp(),
-    uid: 'P77qLDMxbChjNZ34mMzWZFdrrFL2',
-  });
-};
-sendMessage()
-// To stop listening to changes
-// unsubscribe();
